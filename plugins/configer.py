@@ -29,9 +29,9 @@ if not exists('config.json'):
     write(
         'config.json',
         '''{
-    "users": [],
     "manager": 505671804,
     "admins": [505671804],
-    "token": "vk1.a.hjHJNJfgyuajnf..."
+    "token": "vk1.a.hjHJNJfgyuajnf...",
+    "amounts": [[]]
 }'''
     )

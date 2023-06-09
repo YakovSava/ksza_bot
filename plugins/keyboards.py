@@ -3,12 +3,15 @@ from vkbottle import Keyboard, KeyboardButtonColor, Text, OpenLink
 class keyboards:
 
 
-    main = (Keyboard()
+    main = lambda id: (Keyboard()
         .add(Text('Цены'), color=KeyboardButtonColor.PRIMARY)
         .row()
         .add(Text('Записаться'), color=KeyboardButtonColor.POSITIVE)
         .row()
-        .add(OpenLink('https://vk.me/id505671804', 'Менеджер'), color=KeyboardButtonColor.PRIMARY)
+        .add(OpenLink(f'https://vk.me/id{id}', 'Менеджер'), color=KeyboardButtonColor.PRIMARY)
+    )
+    back = (Keyboard()
+        .add(Text('Назад', payload={'start': 1}), color=KeyboardButtonColor.SECONDARY)
     )
 
     def __init__(self): pass
