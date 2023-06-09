@@ -3,6 +3,13 @@
 # include <string>
 using namespace std;
 
+
+
+string concatinate(string first, string second) {
+    string endline = "\n";
+    return first + endline +second;
+}
+
 int Cdamerau_levenshtein_distance(string s, string t) {
 
     int len_s = s.length();
@@ -35,6 +42,9 @@ int Cdamerau_levenshtein_distance(string s, string t) {
 
     return d[len_s][len_t];
 }
+
+
+
 
 static PyObject* damerau_levenshtein_distance(PyObject* self, PyObject* args) {
     const char* s_char;
