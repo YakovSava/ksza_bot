@@ -2,7 +2,7 @@ import asyncio
 
 from vkbottle.bot import Bot, Message
 from typing import AnyStr
-from plugins.configer import async_get_config, async_set_config, get_config, set_config
+from plugins.configer import async_get_config, async_set_config, get_config
 from vk_captcha import VkCaptchaSolver
 from plugins.keyboards import keyboards, StartRule
 from plugins.dam_lev import damerau_levenshtein_distance
