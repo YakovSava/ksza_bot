@@ -51,7 +51,8 @@ async def no_command_handler(message:Message):
         if dl_distance(message.text, command):
             await message.answer(f'Возможно вы имели ввиду "{command}", попробуйте снова!', keyboard=keyboards.back)
             break
-    await message.answer('Ваше сообщение не похоже ни на одну из комманд, возможно вы сильно ошиблись', keyboard=keyboards.back)
+    else:
+        await message.answer('Ваше сообщение не похоже ни на одну из комманд, возможно вы сильно ошиблись', keyboard=keyboards.back)
 
 async def start():
     await bot.run_polling()
