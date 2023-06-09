@@ -1,4 +1,8 @@
+from vkbottle import ABCRule
+from vkbottle.bot import Message
 from vkbottle import Keyboard, KeyboardButtonColor, Text, OpenLink
+
+null = None
 
 class keyboards:
 
@@ -14,16 +18,10 @@ class keyboards:
         .add(Text('Назад', payload={'start': 1}), color=KeyboardButtonColor.SECONDARY)
     )
 
-    def __init__(self): pass
-
-    def __str__(self):
-        text = f'Class keyboards('
-        for key, data in self.__dict__.items():
-            if not (key.startswith('__') and key.endswith('__')):
-                text += f'{key}={str(data)}, '
-        text += ')'
-
-        return text
-
-    def __repr__(self):
-        return str(self)
+class StartRule(ABCRule[Message]):
+    async def check(self, message:Message) -> bool:
+        return (
+            message.text.lower() == 'начать'
+            or
+            eval(message.payload) == {'start': 1}
+        )
