@@ -1,19 +1,9 @@
-# include <iostream>
+# include <Python.h>
 # include <algorithm>
 # include <string>
 using namespace std;
 
-# ifdef _WIN32
-    # define API __declspec(dllexport)
-# else
-    # define API
-# endif
-
-extern "C" {
-
-API int damerau_levenshtein_distance(char* s_char, char* t_char) {
-    string s = string(s_char);
-    string t = string(t_char);
+int Cdamerau_levenshtein_distance(string s, string t) {
 
     int len_s = s.length();
     int len_t = t.length();
@@ -46,4 +36,33 @@ API int damerau_levenshtein_distance(char* s_char, char* t_char) {
     return d[len_s][len_t];
 }
 
+static PyObject* damerau_levenshtein_distance(PyObject* self, PyObject* args) {
+    const char* s_char;
+    const char* two_char;
+
+    if (!PyArg_ParseTuple(args, "ss", &s_char, &two_char)) {
+        return NULL;
+    }
+
+    int result = Cdamerau_levenshtein_distance(string(s_char), string(two_char));
+
+    return Py_BuildValue("i", result);
+}
+
+
+static PyMethodDef methods[] = {
+    {"damerau_levenshtein_distance", damerau_levenshtein_distance, METH_VARARGS, "Calculate damerau levenshtein distance"},
+    {NULL, NULL, 0, NULL} 
+};
+
+static struct PyModuleDef module = {
+    PyModuleDef_HEAD_INIT,
+    "dam_lev",
+    "Damerau levenshtein distance calculator",
+    -1,
+    methods
+};
+
+PyMODINIT_FUNC PyInit_dam_lev(void) {
+    return PyModule_Create(&module);
 }
