@@ -2,10 +2,13 @@ from vkbottle import Keyboard, KeyboardButtonColor, Text, OpenLink
 
 class keyboards:
 
+
     main = (Keyboard()
         .add(Text('Цены'), color=KeyboardButtonColor.PRIMARY)
         .row()
-        .add(OpenLink('https://vk.me/id505671804', 'Менеджер'), color=KeyboardButtonColor.POSITIVE)
+        .add(Text('Записаться'), color=KeyboardButtonColor.POSITIVE)
+        .row()
+        .add(OpenLink('https://vk.me/id505671804', 'Менеджер'), color=KeyboardButtonColor.PRIMARY)
     )
 
     def __init__(self): pass
@@ -21,7 +24,3 @@ class keyboards:
 
     def __repr__(self):
         return str(self)
-
-if __name__ == '__main__':
-    k = keyboards()
-    print(k)
