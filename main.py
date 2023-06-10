@@ -33,10 +33,8 @@ async def start_handler(message:Message):
 
 @bot.on.private_message(text="цены")
 async def amount_handler(message:Message):
-    text = "Цены:\n"
     config = await async_get_config()
-    for title, amount in config['amounts']:
-        text += f"{title} - {amount} руб."
+    text = "Прайс:" + "\n".join(config['price'])
     await message.answer(text, keyboard=keyboards.back)
 
 @bot.on.private_message(text="записаться")
@@ -47,14 +45,29 @@ async def sign_up_handler(message:Message):
 @bot.on.private_message(payload={'bot': 1})
 async def i_need_bot_handler(message:Message):
     await message.answer('''Вот вам ссылка на создателя бота, вы можете написать то что вам необходимо и он вам сделает вашего бота!
-Однако учтите что помимо обычной оплаты бота вам так же придётся платить за то что бы бот работал (сервер)
 Всю информацию вам скажет создатель бота
 
 https://vk.me/id505671804''')
 
 @bot.on.private_message(text='admins <parameters>')
 async def admins_handler(message:Message, parameters:str):
-    pass
+    parameters = parameters.lower().split()
+    if parameters[0] == 'config':
+        config = await async_get_config()
+        parameter, value = parameters[1], parameters[2]
+        config[parameter] = value
+        await async_set_config(config)
+
+        await message.answer('Параметр успешно изменён')
+    elif parameters[0] == 'price':
+        price = message.text.splitlines()[1:]
+        config = await async_get_config()
+        config['price'] = price
+        await async_set_config(config)
+
+        await message.answer('Параметр успешно изменён!')
+    else:
+        await message.answer('Такой команды нет!')
 
 @bot.on.private_message()
 async def no_command_handler(message:Message):

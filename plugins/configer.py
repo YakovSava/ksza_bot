@@ -31,7 +31,7 @@ if not exists('config.json'):
         '''{
     "admins": [505671804],
     "token": "vk1.a.hjHJNJfgyuajnf...",
-    "amounts": [[]],
+    "price": [],
     "link": ""
 }'''
     )
