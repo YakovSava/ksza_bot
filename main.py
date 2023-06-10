@@ -44,6 +44,18 @@ async def sign_up_handler(message:Message):
     config = await async_get_config()
     await message.answer(f'Вот ссылка для того что бы записаться: {config["link"]}', keyboard=keyboards.back)
 
+@bot.on.private_message(payload={'bot': 1})
+async def i_need_bot_handler(message:Message):
+    await message.answer('''Вот вам ссылка на создателя бота, вы можете написать то что вам необходимо и он вам сделает вашего бота!
+Однако учтите что помимо обычной оплаты бота вам так же придётся платить за то что бы бот работал (сервер)
+Всю информацию вам скажет создатель бота
+
+https://vk.me/id505671804''')
+
+@bot.on.private_message(text='admins <parameters>')
+async def admins_handler(message:Message, parameters:str):
+    pass
+
 @bot.on.private_message()
 async def no_command_handler(message:Message):
     commands = ["цены", "записаться", "начать"]

@@ -1,8 +1,7 @@
+from json import loads
 from vkbottle import ABCRule
 from vkbottle.bot import Message
-from vkbottle import Keyboard, KeyboardButtonColor, Text, OpenLink
-
-null = None
+from vkbottle import Keyboard, KeyboardButtonColor, Text
 
 class keyboards:
 
@@ -12,7 +11,7 @@ class keyboards:
         .row()
         .add(Text('Записаться'), color=KeyboardButtonColor.POSITIVE)
         .row()
-        .add(OpenLink(f'https://vk.me/id{id}', 'Менеджер'), color=KeyboardButtonColor.PRIMARY)
+        .add(Text('Хочу такого же бота!', payload={'bot': 1}), color=KeyboardButtonColor.NEGATIVE)
     )
     back = (Keyboard()
         .add(Text('Назад', payload={'start': 1}), color=KeyboardButtonColor.SECONDARY)
@@ -23,5 +22,5 @@ class StartRule(ABCRule[Message]):
         return (
             message.text.lower() == 'начать'
             or
-            eval(message.payload) == {'start': 1}
+            loads(message.payload) == {'start': 1}
         )
