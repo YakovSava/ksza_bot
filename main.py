@@ -34,7 +34,9 @@ async def start_handler(message:Message):
 @bot.on.private_message(text="цены")
 async def amount_handler(message:Message):
     config = await async_get_config()
-    text = "Прайс:" + "\n".join(config['price'])
+    text = "Прайс:\n"
+    for item in config['price']:
+        text += f'{item[0]} - {item[1]}\n'
     await message.answer(text, keyboard=keyboards.back)
 
 @bot.on.private_message(text="записаться")
