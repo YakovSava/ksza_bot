@@ -4,14 +4,14 @@
 # include <Python.h>
 using namespace std;
 
-string concatinate(string first, string second) { 
+string concatinate(const string& first, const string& second) { 
     string endline = "\n";
     return first + endline + second;
 }
 
-const char* Cread(const char* filename) {
+string Cread(const char* filename) {
     ifstream file(filename);
-    string line, lines = "";
+    string line, lines;
 
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -21,7 +21,7 @@ const char* Cread(const char* filename) {
         lines = "bad open";
     }
     file.close();
-    return lines.c_str();
+    return lines;
 }
 
 int Cwrite(const char* filename, const char* lines) {
@@ -42,32 +42,41 @@ int Cwrite(const char* filename, const char* lines) {
     }
 }
 
-
-
-
 static PyObject* write(PyObject* self, PyObject* args) {
-    const char* filename;
-    const char* data;
+    PyObject *filename_obj, *data_obj;
 
-    if (!PyArg_ParseTuple(args, "ss", &filename, &data)) {
+    if (!PyArg_ParseTuple(args, "UU", &filename_obj, &data_obj)) {
         return NULL;
     }
 
-    Cwrite(filename, data);
+    const char *filename = PyUnicode_AsUTF8(filename_obj);
+    const char *data = PyUnicode_AsUTF8(data_obj);
 
-    Py_RETURN_NONE;
+    int result = Cwrite(filename, data);
+
+    Py_DECREF(filename_obj);
+    Py_DECREF(data_obj);
+
+    if (result == 1) {
+        Py_RETURN_NONE;
+    } else {
+        return PyErr_Format(PyExc_RuntimeError, "Could not write to file: %s", filename);
+    }
 }
 
 static PyObject* read(PyObject* self, PyObject* args) {
-    const char* filename;
+    PyObject* filename_obj;
 
-    if (!PyArg_ParseTuple(args, "s", &filename)) {
+    if (!PyArg_ParseTuple(args, "U", &filename_obj)) {
         return NULL;
     }
 
-    const char* read_result = Cread(filename);
+    const char* filename = PyUnicode_AsUTF8(filename_obj);
+    string read_result = Cread(filename);
 
-    return Py_BuildValue("s", read_result);
+    Py_DECREF(filename_obj);
+
+    return PyUnicode_FromString(read_result.c_str());
 }
 
 static PyMethodDef methods[] = {

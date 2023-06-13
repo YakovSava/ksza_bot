@@ -5,14 +5,11 @@ from json import dumps, loads
 from plugins.file_man import read, write
 
 def get_config() -> dict:
+    print(open('config.json', 'r').read())
     return loads(read('config.json'))
 
 async def async_get_config(loop:asyncio.AbstractEventLoop=asyncio.get_event_loop()) -> dict:
-    return await loop.run_in_executor(
-        None,
-        read,
-        'config.json'
-    )
+    return get_config()
 
 def set_config(new_config:dict) -> None:
     write(dumps(new_config))

@@ -25,10 +25,10 @@ bot.on.vbml_ignore_case = True
 
 @bot.on.private_message(StartRule())
 async def start_handler(message:Message):
-    config = await async_get_config()
+    config = await async_get_config()#; print(config)
     await message.answer(
         "Здравствуй! Вот кнопки, выбери то что тебе необходимо и нажимай или напиши!",
-        keyboard=keyboards.main(config['manager'])
+        keyboard=keyboards.main(config)
     )
 
 @bot.on.private_message(text="цены")
