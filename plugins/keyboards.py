@@ -1,12 +1,14 @@
 from json import loads
 from vkbottle import ABCRule
 from vkbottle.bot import Message
-from vkbottle import Keyboard, KeyboardButtonColor, Text
+from vkbottle import Keyboard, KeyboardButtonColor, Text, OpenLink
 
 class keyboards:
 
 
-    main = lambda id: (Keyboard()
+    main = lambda config: (Keyboard()
+        .add(OpenLink(config['master'], 'Связаться с мастером'), color=KeyboardButtonColor.POSITIVE)
+        .row()
         .add(Text('Цены'), color=KeyboardButtonColor.PRIMARY)
         .row()
         .add(Text('Записаться'), color=KeyboardButtonColor.POSITIVE)
