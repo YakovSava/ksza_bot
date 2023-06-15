@@ -24,5 +24,5 @@ class StartRule(ABCRule[Message]):
         return (
             message.text.lower() == 'начать'
             or
-            loads(message.payload) == {'start': 1}
+            loads(message.payload if message.payload is not None else '{"not": 1}') == {'start': 1}
         )
