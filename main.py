@@ -11,7 +11,7 @@ def dl_distance(message_text:AnyStr, guess:AnyStr) -> bool:
     return damerau_levenshtein_distance(
         str(message_text),
         str(guess)
-    ) >= 3
+    ) <= 3
 
 first_config = get_config()
 
